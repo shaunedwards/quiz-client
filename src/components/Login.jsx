@@ -41,12 +41,12 @@ function Login() {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const formData = new FormData();
+    const formData = new URLSearchParams();
     formData.append('username', username);
     formData.append('password', password);
 
     // send credentials to server
-    fetch('http://localhost:5000/login', {
+    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/login', {
       method: 'POST',
       body: formData,
       credentials: 'include'
