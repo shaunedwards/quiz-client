@@ -1,0 +1,94 @@
+import React from 'react';
+import {
+  List,
+  Link,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  SwipeableDrawer
+} from '@material-ui/core';
+import {
+  Home,
+  Search,
+  ListAlt,
+  Favorite,
+  ThumbUp,
+  Settings,
+  ExitToApp
+} from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  list: {
+    width: 250
+  }
+});
+
+function Drawer(props) {
+  const classes = useStyles();
+
+  const { isOpen, setOpen } = props;
+
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  const toggleDrawer = open => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
+    setOpen(open);
+  };
+
+  return (
+    <SwipeableDrawer
+      open={isOpen}
+      onClose={toggleDrawer(false)}
+      onOpen={toggleDrawer(true)}
+      disableDiscovery={iOS}
+      disableBackdropTransition={!iOS}
+    >
+      <div
+        className={classes.list}
+        role="presentation"
+        onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        <List>
+          <Link href="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <ListItem button>
+              <ListItemIcon><Home /></ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
+          </Link>
+          <Link href="/discover" style={{textDecoration: 'none', color: 'inherit'}}>
+            <ListItem button>
+              <ListItemIcon><Search /></ListItemIcon>
+              <ListItemText primary="Discover" />
+            </ListItem>
+          </Link>
+          <ListItem button>
+            <ListItemIcon><ListAlt /></ListItemIcon>
+            <ListItemText primary="Your Games" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon><Favorite /></ListItemIcon>
+            <ListItemText primary="Favourites" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon><ThumbUp /></ListItemIcon>
+            <ListItemText primary="Feedback" />
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <ListItemIcon><Settings /></ListItemIcon>
+            <ListItemText primary="Settings" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon><ExitToApp /></ListItemIcon>
+            <ListItemText primary="Log out" />
+          </ListItem>
+        </List>
+      </div>
+    </SwipeableDrawer>
+  );
+}
+
+export default Drawer;

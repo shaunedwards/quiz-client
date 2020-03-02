@@ -9,6 +9,7 @@ import {
   Typography,
   CssBaseline,
 } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -28,13 +29,19 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(2, 0, 2),
   },
+  alert: {
+    marginTop: theme.spacing(2)
+  }
 }));
 
-function Login() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+function Login(props) {
+  const { setAuthenticated } = props;
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const classes = useStyles();
 
@@ -46,20 +53,13 @@ function Login() {
     formData.append('password', password);
 
     // send credentials to server
-    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/login', {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    })
-      .then(res => res.json())
-      .then(data => console.log(data))
-
-    document.getElementById('login-form').reset();
-    document.getElementById('username').focus();
-  }
-
-  function validateForm() {
-    return username.length > 0 && password.length > 0;
+    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/login', { method: 'POST', body: formData, credentials: 'include' })
+      .then(response => {
+        if (response.ok) return setAuthenticated(true);
+        document.getElementById('login-form').reset();
+        document.getElementById('username').focus();
+        setError('Invalid username or password specified');
+      });
   }
 
   return (
@@ -73,46 +73,44 @@ function Login() {
           Sign in
         </Typography>
         <Typography component="p" variant="caption">
-          Log in using your Aber credentials below.
+          Log in using your Aber credentials below
         </Typography>
+        {error ? <Alert severity="error" className={classes.alert}>{error}</Alert> : null}
         <form id="login-form" className={classes.form} noValidate>
           <TextField
+            required
+            autoFocus
+            fullWidth
             variant="outlined"
             margin="normal"
-            required
-            fullWidth
             id="username"
             label="Username"
             name="username"
-            autoComplete="username"
-            autoFocus
             onChange={e => setUsername(e.target.value)}
           />
           <TextField
-            variant="outlined"
-            margin="normal"
             required
             fullWidth
+            variant="outlined"
+            margin="normal"
             name="password"
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
             onChange={e => setPassword(e.target.value)}
           />
           <Button
-            type="submit"
             fullWidth
+            type="submit"
             variant="contained"
             color="primary"
             className={classes.submit}
             onClick={handleSubmit}
-            disabled={!validateForm()}
           >
             Sign In
           </Button>
           <Grid>
-            <Grid item align='center'>
+            <Grid item align="center">
               <Link href="https://myaccount.aber.ac.uk/open/reset/" target="_blank" variant="body2">
                 Forgot password?
               </Link>
