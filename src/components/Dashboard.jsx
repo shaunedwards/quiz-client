@@ -7,8 +7,10 @@ function Dashboard() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/dashboard', { credentials: 'include' })
-      .then(res => res.json())
+    fetch(`${process.env.REACT_APP_API_URL}/dashboard`, { credentials: 'include' })
+      .then(res => {
+        if (res.ok) return res.json();
+      })
       .then(data => setData(data))
   }, []);
 

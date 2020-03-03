@@ -29,7 +29,7 @@ function QuizEditor() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    fetch(`http://mmp-sme4.dcs.aber.ac.uk:5000/games/${match.params.id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`)
       .then(res => res.json())
       .then(data => {
         setQuiz(data);
@@ -62,7 +62,7 @@ function QuizEditor() {
   const onSave = async () => {
     if (!validate()) return setError('One or more required fields are incomplete');
     await update();
-    fetch(`http://mmp-sme4.dcs.aber.ac.uk:5000/games/${match.params.id}`, { 
+    fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

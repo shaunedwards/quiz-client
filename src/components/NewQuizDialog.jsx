@@ -23,7 +23,7 @@ function NewQuizDialog(props) {
   const [created, setCreated] = useState(null);
 
   useEffect(() => {
-    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/subjects')
+    fetch(`${process.env.REACT_APP_API_URL}/subjects`)
       .then(res => res.json())
       .then(data => setOptions(data))
   }, []);
@@ -33,7 +33,7 @@ function NewQuizDialog(props) {
     body.append('title', title);
     body.append('subject', subject);
 
-    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/games', { method: 'POST', body, credentials: 'include' })
+    fetch(`${process.env.REACT_APP_API_URL}/games`, { method: 'POST', body, credentials: 'include' })
       .then(res => res.json())
       .then(data => {
         setOpen(false);

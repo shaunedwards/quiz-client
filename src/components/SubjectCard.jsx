@@ -4,6 +4,7 @@ import {
   CardContent, 
   Typography 
 } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
@@ -37,7 +38,7 @@ function SubjectCard(props) {
   const classes = useStyles({ image });
 
   return (
-    <a href={`http://localhost:3000/discover/${id}`} style={{textDecoration:'none'}}>
+    <Link to={{ pathname: `/discover/${id}`, state: props }} style={{textDecoration:'none'}}>
       <Card raised className={classes.card}>
         <CardContent>
           <Typography component="h1" variant="h6" className={classes.title}>
@@ -45,7 +46,7 @@ function SubjectCard(props) {
           </Typography>
         </CardContent>
       </Card>
-    </a>
+    </Link>
   )
 }
 

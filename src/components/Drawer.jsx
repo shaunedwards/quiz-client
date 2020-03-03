@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import {
   Home,
+  Menu,
   Search,
   ListAlt,
   Favorite,
@@ -52,6 +53,11 @@ function Drawer(props) {
         onKeyDown={toggleDrawer(false)}
       >
         <List>
+          <ListItem button>
+            <ListItemIcon><Menu /></ListItemIcon>
+            <ListItemText primary="Close menu" />
+          </ListItem>
+          <Divider />
           <Link href="/dashboard" style={{ textDecoration: 'none', color: 'inherit' }}>
             <ListItem button>
               <ListItemIcon><Home /></ListItemIcon>

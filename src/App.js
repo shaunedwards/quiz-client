@@ -10,6 +10,7 @@ import Login from './components/Login';
 import Discover from './components/Discover';
 import Dashboard from './components/Dashboard';
 import QuizEditor from './components/QuizEditor';
+import DiscoverListView from './components/DiscoverListView';
 
 class PrivateRoute extends Component {
   constructor(props, context) {
@@ -20,7 +21,7 @@ class PrivateRoute extends Component {
         isLoggedIn: false
       };
 
-      fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/dashboard', { credentials: 'include' })
+      fetch(`${process.env.REACT_APP_API_URL}/dashboard`, { credentials: 'include' })
         .then(response => {
           this.setState(() => ({ isLoading: false, isLoggedIn: response.ok }));
         })
@@ -49,7 +50,7 @@ function App() {
         <Route exact path="/login" component={Login} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/discover" component={Discover} />
-        <PrivateRoute exact path="/discover/:id" component={null} />
+        <PrivateRoute exact path="/discover/:id" component={DiscoverListView} />
         <PrivateRoute exact path="/quiz/:id" component={null} />
         <PrivateRoute exact path="/quiz/:id/edit" component={QuizEditor} />
         <Route render={() => <Redirect to="/dashboard" />} />
