@@ -10,6 +10,7 @@ import {
   CssBaseline,
 } from '@material-ui/core';
 import Alert from '@material-ui/lab/Alert';
+import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
@@ -37,8 +38,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Login(props) {
-  const { setAuthenticated } = props;
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -55,7 +54,9 @@ function Login(props) {
     // send credentials to server
     fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/login', { method: 'POST', body: formData, credentials: 'include' })
       .then(response => {
-        if (response.ok) return setAuthenticated(true);
+        if (response.ok) {
+          return props.history.push('/dashboard');
+        }
         document.getElementById('login-form').reset();
         document.getElementById('username').focus();
         setError('Invalid username or password specified');
@@ -122,4 +123,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default withRouter(Login);

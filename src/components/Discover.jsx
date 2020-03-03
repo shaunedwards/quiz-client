@@ -8,7 +8,7 @@ function Discover() {
   const [subjects, setSubjects] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/subjects')
+    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/subjects')
       .then(res => res.json())
       .then(data => setSubjects(data))
   }, []);

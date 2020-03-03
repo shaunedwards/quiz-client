@@ -13,6 +13,7 @@ import {
   Close,
   Done
 } from '@material-ui/icons';
+import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Drawer from './Drawer';
@@ -35,6 +36,13 @@ function Header(props) {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const classes = useStyles();
+
+  const handleLogout = () => {
+    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/logout', { credentials: 'include' })
+      .then(() => {
+        props.history.push('/login');
+      });
+  }
 
   return (
     <div className={classes.root}>
@@ -69,7 +77,7 @@ function Header(props) {
                 </IconButton>
               </Tooltip>
               <Tooltip title="Logout" aria-label="logout">
-                <IconButton edge="end" color="inherit">
+                <IconButton edge="end" color="inherit" onClick={handleLogout}>
                   <ExitToApp />
                 </IconButton>
               </Tooltip>
@@ -77,10 +85,10 @@ function Header(props) {
           )}
         </Toolbar>
       </AppBar>
-      <Drawer isOpen={isDrawerOpen} setOpen={setDrawerOpen} />
       <NewQuizDialog isOpen={isDialogOpen} setOpen={setDialogOpen} />
+      <Drawer isOpen={isDrawerOpen} setOpen={setDrawerOpen} handleLogout={handleLogout} />
     </div>
   );
 }
 
-export default Header;
+export default withRouter(Header);

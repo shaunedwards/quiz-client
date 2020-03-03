@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 function Drawer(props) {
   const classes = useStyles();
 
-  const { isOpen, setOpen } = props;
+  const { isOpen, setOpen, handleLogout } = props;
 
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
@@ -81,7 +81,7 @@ function Drawer(props) {
             <ListItemIcon><Settings /></ListItemIcon>
             <ListItemText primary="Settings" />
           </ListItem>
-          <ListItem button>
+          <ListItem button onClick={handleLogout}>
             <ListItemIcon><ExitToApp /></ListItemIcon>
             <ListItemText primary="Log out" />
           </ListItem>
