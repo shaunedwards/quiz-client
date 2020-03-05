@@ -17,6 +17,7 @@ import { Delete, ExpandMore } from '@material-ui/icons';
 import { Redirect, useRouteMatch } from 'react-router-dom';
 
 import Header from './Header';
+import QuestionDialog from './QuestionDialog';
 
 function QuizEditor() {
   const match = useRouteMatch();
@@ -27,6 +28,7 @@ function QuizEditor() {
   const [redirect, setRedirect] = useState(false);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [isDialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`)
@@ -48,20 +50,25 @@ function QuizEditor() {
     setRedirect(true);
   }
 
-  const update = () => {
+  const validate = () => {
+    if (!quiz.title.trim()) {
+      setError('You must provide a title for the quiz');
+      return false;
+    }
+    if (!questions.length && isPublic) {
+      setError('You cannot publish a quiz without first adding a question!');
+      return false;
+    }
+    return true;
+  }
+
+  const onSave = () => {
+    if (!validate()) return;
+
     quiz.questions = questions;
     quiz.public = isPublic;
     quiz.draft = false;
-  }
 
-  const validate = () => {
-    // TODO: add other conditions
-    return !questions.some(question => question.text === '');
-  }
-
-  const onSave = async () => {
-    if (!validate()) return setError('One or more required fields are incomplete');
-    await update();
     fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`, { 
       method: 'PUT',
       headers: {
@@ -77,18 +84,6 @@ function QuizEditor() {
       });
   }
 
-  const addQuestion = () => {
-    const question = {
-      type: 'multiple',
-      text: '',
-      choices: [],
-      correct_answers: [],
-      points: 0,
-      timer: 0
-    };
-    setQuestions([...questions, question]);
-  }
-
   const removeQuestion = (index) => {
     let arr = [...questions];
     arr.splice(index, 1);
@@ -97,10 +92,26 @@ function QuizEditor() {
 
   return (
     <>
-      <Header title={`Editing quiz: ${quiz.title}`} editorMode onEditorClose={onClose} onEditorSave={onSave} />
-      {console.log(match)}
+      <Header title="Quiz Editor" editorMode onEditorClose={onClose} onEditorSave={onSave} />
       <Grid container justify="center" style={{padding: 30}}>
         <FormGroup>
+          <TextField 
+            required 
+            label="Quiz title"
+            value={quiz.title ? quiz.title : ''}
+            onChange={e => {
+              quiz.title = e.target.value;
+              setQuiz({ ...quiz });
+            }} 
+          />
+          <TextField 
+            label="Quiz description" 
+            value={quiz.desc ? quiz.desc : ''}
+            onChange={e => {
+              quiz.desc = e.target.value;
+              setQuiz({ ...quiz });
+            }} 
+          />
           <FormControlLabel
             control={
               <Switch checked={isPublic} onChange={e => setPublic(e.target.checked)} value="public" />
@@ -108,7 +119,7 @@ function QuizEditor() {
             label="Allow this game to be discovered by other teachers"
             labelPlacement="start"
           />
-          <Button variant="contained" color="primary" onClick={addQuestion}>
+          <Button variant="contained" color="primary" onClick={() => setDialogOpen(true)}>
             Add New Question
           </Button>
       </FormGroup>
@@ -133,13 +144,13 @@ function QuizEditor() {
                 <ExpansionPanelDetails>
                   <TextField 
                     required
+                    fullWidth
                     label="Question text" 
                     value={question.text}
                     onChange={e => {
                       questions[index].text = e.target.value;
                       setQuestions([...questions]);
                     }} 
-                    style={{width:'100%'}}
                   />
                 </ExpansionPanelDetails>
               </ExpansionPanel>
@@ -158,6 +169,7 @@ function QuizEditor() {
         </Alert>
       </Snackbar>
       { redirect ? <Redirect to="/dashboard" /> : null}
+      { isDialogOpen ? <QuestionDialog isOpen={isDialogOpen} setOpen={setDialogOpen} questions={questions} setQuestions={setQuestions} /> : null}
     </>
   )
 }
