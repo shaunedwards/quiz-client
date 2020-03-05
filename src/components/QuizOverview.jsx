@@ -67,18 +67,28 @@ function QuizOverview() {
           
               <Grid container style={{fontFamily:'Roboto, Helvetica, Arial, sans-serif', fontSize:14}}>
                 <Grid item xs={12} md={6}>
-                  <Person style={{verticalAlign:'middle', marginRight:'8px'}} titleAccess="Quiz author" /> sme4
+                  <Person 
+                    style={{verticalAlign:'middle', marginRight:'8px'}} 
+                    titleAccess="Quiz author" /> 
+                    {quiz.created_by ? quiz.created_by.uid : 'No author'}
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <PlayArrow style={{verticalAlign:'middle', marginRight:'8px'}} titleAccess="Number of plays" /> 100 games hosted
-                </Grid>
-              </Grid>
-              <Grid container style={{fontFamily:'Roboto, Helvetica, Arial, sans-serif', fontSize:14}}>
-                <Grid item xs={12} md={6}>
-                  <School style={{verticalAlign:'middle', marginRight:'8px'}} titleAccess="Quiz subject" /> {quiz.subject.name}
+                  <PlayArrow 
+                    style={{verticalAlign:'middle', marginRight:'8px'}} 
+                    titleAccess="Number of plays" /> 
+                    100 games hosted
                 </Grid>
                 <Grid item xs={12} md={6}>
-                  <Timeline style={{verticalAlign:'middle', marginRight:'8px'}} titleAccess="Percentage of correct answers over 100 games" /> 90% average accuracy
+                  <School 
+                    style={{verticalAlign:'middle', marginRight:'8px'}} 
+                    titleAccess="Quiz subject" /> 
+                    {quiz.subject.name}
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Timeline 
+                    style={{verticalAlign:'middle', marginRight:'8px'}} 
+                    titleAccess="Percentage of correct answers over 100 games" /> 
+                    90% average accuracy
                 </Grid>
               </Grid>
               <Divider style={{margin: '1em 0'}} />
@@ -120,8 +130,8 @@ function QuizOverview() {
                   <Divider />
                   <CardContent>
                     <Grid container style={{fontFamily:'Roboto, Helvetica, Arial, sans-serif', fontSize:14}}>
-                      {question.choices ? question.choices.map(choice => (
-                        <Grid item xs={12} md={6}>
+                      {question.choices ? question.choices.map((choice, index) => (
+                        <Grid item xs={12} md={6} key={index}>
                           {showAnswers ? 
                             question.correct_answers.length === 0 || question.correct_answers.includes(choice)
                               ? <CheckCircleOutline style={{verticalAlign:'middle', marginRight:'8px', color:'green'}} fontSize="small" />

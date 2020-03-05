@@ -82,7 +82,7 @@ function NewQuizDialog(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary" disabled={!subject || !title}>
+          <Button onClick={handleSubmit} color="primary" disabled={!subject || !title.trim()}>
             Submit
           </Button>
         </DialogActions>
