@@ -13,7 +13,7 @@ function Favourites() {
   const [quizzes, setQuizzes] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/users/favourites`)
+    fetch(`${process.env.REACT_APP_API_URL}/users/favourites`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => setQuizzes(data))
   }, []);

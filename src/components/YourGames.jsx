@@ -9,7 +9,7 @@ function YourGames() {
   const [quizzes, setQuizzes] = useState([]);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/users/games`)
+    fetch(`${process.env.REACT_APP_API_URL}/users/games`, { credentials: 'include' })
       .then(res => res.json())
       .then(data => setQuizzes(data))
   }, []);
