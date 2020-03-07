@@ -1,25 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { useRouteMatch, useLocation } from 'react-router-dom';
+import { Add } from '@material-ui/icons';
 
 import Header from './Header';
 import QuizCard from './QuizCard';
 
-function DiscoverListView() {
+function YourGames() {
   const [quizzes, setQuizzes] = useState([]);
 
-  const match = useRouteMatch();
-  const location = useLocation();
-
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/subjects/${match.params.id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/users/games`)
       .then(res => res.json())
       .then(data => setQuizzes(data))
   }, []);
 
   return (
     <>
-      <Header title={location.state.name} />
+      <Header title="Your Games" />
       <Grid container justify="center" style={{marginTop: 20}}>
         {quizzes.length > 0 ? quizzes.map(quiz => {
             return (
@@ -30,10 +27,10 @@ function DiscoverListView() {
           }) : (
             <div style={{textAlign:'center'}}>
               <Typography variant="h5">
-                No quizzes found
+                Your games list is empty
               </Typography>
               <Typography variant="caption">
-                Use the add button in the top right corner to create your own!
+                Use the add button in the top right corner to create your first quiz!
               </Typography>
             </div>
           )}
@@ -42,4 +39,4 @@ function DiscoverListView() {
   )
 }
 
-export default DiscoverListView;
+export default YourGames;

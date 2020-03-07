@@ -7,7 +7,7 @@ function Dashboard() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/dashboard`, { credentials: 'include' })
+    fetch(`${process.env.REACT_APP_API_URL}/users`, { credentials: 'include' })
       .then(res => {
         if (res.ok) return res.json();
       })

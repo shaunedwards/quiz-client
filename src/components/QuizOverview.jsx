@@ -41,6 +41,20 @@ function QuizOverview() {
       .then(data => setQuiz(data))
   }, []);
 
+  const addFavourite = (id) => {
+    fetch(`${process.env.REACT_APP_API_URL}/users/favourites?qid=${id}`, { method: 'POST', credentials: 'include' })
+      .then(res => res.json())
+      .then(data => console.log(data));
+    setFavourite(true);
+  }
+
+  const removeFavourite = (id) => {
+    fetch(`${process.env.REACT_APP_API_URL}/users/favourites?qid=${id}`, { method: 'DELETE', credentials: 'include' })
+      .then(res => res.json())
+      .then(data => console.log(data))
+    setFavourite(false);
+  }
+
   return (
     <>
       <Header title={quiz ? quiz.title : null} />
@@ -54,7 +68,7 @@ function QuizOverview() {
               <Tooltip title={isFavourite ? 'Remove from favourites' : 'Add to favourites'}>
                 <IconButton 
                   aria-label={isFavourite ? 'Remove from favourites' : 'Add to favourites'} 
-                  onClick={() => setFavourite(!isFavourite)}
+                  onClick={() => isFavourite ? removeFavourite(quiz._id) : addFavourite(quiz._id)}
                   style={{float:'right', padding:0}}
                 >
                   {isFavourite ? <Favorite style={{color:'red'}}/> : <FavoriteBorder />}

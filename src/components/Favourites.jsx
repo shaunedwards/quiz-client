@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography } from '@material-ui/core';
-import { useRouteMatch, useLocation } from 'react-router-dom';
+import { 
+  Grid,
+  Typography,
+  Button
+} from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 import Header from './Header';
 import QuizCard from './QuizCard';
 
-function DiscoverListView() {
+function Favourites() {
   const [quizzes, setQuizzes] = useState([]);
 
-  const match = useRouteMatch();
-  const location = useLocation();
-
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/subjects/${match.params.id}`)
+    fetch(`${process.env.REACT_APP_API_URL}/users/favourites`)
       .then(res => res.json())
       .then(data => setQuizzes(data))
   }, []);
 
   return (
     <>
-      <Header title={location.state.name} />
+      <Header title="Favourites" />
       <Grid container justify="center" style={{marginTop: 20}}>
         {quizzes.length > 0 ? quizzes.map(quiz => {
             return (
@@ -30,11 +31,11 @@ function DiscoverListView() {
           }) : (
             <div style={{textAlign:'center'}}>
               <Typography variant="h5">
-                No quizzes found
+                You have no favourites yet!
               </Typography>
-              <Typography variant="caption">
-                Use the add button in the top right corner to create your own!
-              </Typography>
+              <Button variant="outlined" color="primary" href="/discover" style={{marginTop:10}}>
+                Browse quizzes
+              </Button>
             </div>
           )}
       </Grid>
@@ -42,4 +43,4 @@ function DiscoverListView() {
   )
 }
 
-export default DiscoverListView;
+export default Favourites;

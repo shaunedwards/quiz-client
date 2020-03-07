@@ -70,14 +70,18 @@ function Drawer(props) {
               <ListItemText primary="Discover" />
             </ListItem>
           </Link>
-          <ListItem button>
-            <ListItemIcon><ListAlt /></ListItemIcon>
-            <ListItemText primary="Your Games" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon><Favorite /></ListItemIcon>
-            <ListItemText primary="Favourites" />
-          </ListItem>
+          <Link href="/dashboard/games" style={{textDecoration: 'none', color: 'inherit'}}>
+            <ListItem button>
+              <ListItemIcon><ListAlt /></ListItemIcon>
+              <ListItemText primary="Your Games" />
+            </ListItem>
+          </Link>
+          <Link href="/dashboard/favourites" style={{textDecoration: 'none', color: 'inherit'}}>
+            <ListItem button>
+              <ListItemIcon><Favorite /></ListItemIcon>
+              <ListItemText primary="Favourites" />
+            </ListItem>
+          </Link>
           <ListItem button>
             <ListItemIcon><ThumbUp /></ListItemIcon>
             <ListItemText primary="Feedback" />
