@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
+  Box,
   Grid,  
   Card,
   Button,
@@ -7,6 +8,7 @@ import {
   Divider,
   IconButton,
   Tooltip,
+  Snackbar,
   CardHeader,
   CardContent
 } from '@material-ui/core';
@@ -14,6 +16,8 @@ import {
   Timer,
   Person,
   School,
+  Edit,
+  Delete,
   Timeline,
   PlayArrow,
   Visibility,
@@ -24,21 +28,26 @@ import {
   RadioButtonUnchecked,
   CheckCircleOutline
 } from '@material-ui/icons';
-import { useRouteMatch } from 'react-router-dom';
+import { Alert } from '@material-ui/lab';
+import { useRouteMatch, withRouter } from 'react-router-dom';
 
 import Header from './Header';
 
-function QuizOverview() {
+function QuizOverview(props) {
   const [quiz, setQuiz] = useState(null);
   const [isFavourite, setFavourite] = useState(false);
   const [showAnswers, setShowAnswers] = useState(false);
+  const [deleted, setDeleted] = useState(null);
 
   const match = useRouteMatch();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`)
       .then(res => res.json())
-      .then(data => setQuiz(data))
+      .then(quiz => {
+        setQuiz(quiz);
+        setFavourite(props.user.favourites.includes(quiz._id));
+      });
   }, []);
 
   const addFavourite = (id) => {
@@ -53,6 +62,13 @@ function QuizOverview() {
       .then(res => res.json())
       .then(data => console.log(data))
     setFavourite(false);
+  }
+
+  const deleteQuiz = (id) => {
+    fetch(`${process.env.REACT_APP_API_URL}/games/${id}`, { method: 'DELETE', credentials: 'include' })
+      .then(response => {
+        if (response.ok) setDeleted(true);
+      });
   }
 
   return (
@@ -107,7 +123,32 @@ function QuizOverview() {
               </Grid>
               <Divider style={{margin: '1em 0'}} />
 
-              <Button variant="outlined">Host a game</Button>
+              <Button 
+                variant="contained"
+                startIcon={<PlayArrow />}
+                style={{background:'#1DB954', color:'white'}}>
+                  Host a game
+              </Button>
+              {quiz.created_by._id === props.user._id ? (
+                <>
+                  <Button 
+                    color="secondary"
+                    variant="contained" 
+                    startIcon={<Delete />}
+                    onClick={() => deleteQuiz(quiz._id)}
+                    style={{float:'right', marginLeft:5}}>
+                      Delete
+                  </Button>
+                  <Button 
+                    color="primary"
+                    variant="contained" 
+                    startIcon={<Edit />}
+                    style={{float:'right'}}
+                    href={`/quiz/${quiz._id}/edit`}>
+                      Edit
+                  </Button>
+                </>
+              ) : null}
             </Grid>
 
             <Grid item xs={12} md={6} style={{padding:30}}>
@@ -162,8 +203,13 @@ function QuizOverview() {
           </>
         ) : null}
       </Grid>
+      <Snackbar open={deleted} autoHideDuration={5000} onClose={() => props.history.push('/dashboard')}>
+        <Alert severity="success">
+          Quiz deleted! You will be redirected to the dashboard in 5 seconds.
+        </Alert>
+      </Snackbar>
     </>
   )
 }
 
-export default QuizOverview;
+export default withRouter(QuizOverview);

@@ -20,24 +20,28 @@ class PrivateRoute extends Component {
       super(props, context);
 
       this.state = {
-        isLoading: true,
-        isLoggedIn: false
+        user: null,
+        isLoading: true
       };
 
       fetch(`${process.env.REACT_APP_API_URL}/session`, { credentials: 'include' })
-        .then(response => {
-          this.setState(() => ({ isLoading: false, isLoggedIn: response.ok }));
+        .then(response => response.json())
+        .then(data => {
+          this.setState(() => ({ isLoading: false, user: data.user }));
         })
         .catch(() => {
-          this.setState(() => ({ isLoading: false, isLoggedIn: false }));
+          this.setState(() => ({ isLoading: false, user: false }));
         });
   }
 
   render() {
       return this.state.isLoading 
         ? null 
-        : this.state.isLoggedIn 
-        ? <Route path={this.props.path} component={this.props.component} exact={this.props.exact}/> 
+        : this.state.user 
+        ? <Route 
+            path={this.props.path} 
+            exact={this.props.exact}
+            render={() => <this.props.component user={this.state.user} />} /> 
         : <Redirect to={{ pathname: "/login", state: { from: this.props.location } }} />
   }
 }
