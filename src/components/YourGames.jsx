@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
 
 import Header from './Header';
 import QuizCard from './QuizCard';

@@ -1,24 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Grid } from '@material-ui/core';
 
 import Header from './Header';
 
-function Dashboard() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL}/users`, { credentials: 'include' })
-      .then(res => {
-        if (res.ok) return res.json();
-      })
-      .then(data => setData(data))
-  }, []);
-
+function Dashboard(props) {
   return (
     <>
       <Header title="Dashboard" />
-      <Grid container>
-        <h1>{data ? data.message : null}</h1>
+      <Grid container style={{paddingLeft: 30, paddingTop: 10}}>
+        <h1>{`Hi, ${props.user.name}!`}</h1>
       </Grid>
     </>
   )
