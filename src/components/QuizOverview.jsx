@@ -203,9 +203,9 @@ function QuizOverview(props) {
           </>
         ) : null}
       </Grid>
-      <Snackbar open={deleted} autoHideDuration={5000} onClose={() => props.history.push('/dashboard')}>
+      <Snackbar open={deleted} autoHideDuration={5000} onClose={() => props.history.goBack()}>
         <Alert severity="success">
-          Quiz deleted! You will be redirected to the dashboard in 5 seconds.
+          Quiz deleted! You will be redirected in 5 seconds.
         </Alert>
       </Snackbar>
     </>
