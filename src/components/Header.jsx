@@ -38,7 +38,7 @@ function Header(props) {
   const classes = useStyles();
 
   const handleLogout = () => {
-    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/logout', { credentials: 'include' })
+    fetch(`${process.env.REACT_APP_API_URL}/logout`, { credentials: 'include' })
       .then(() => {
         props.history.push('/login');
       });

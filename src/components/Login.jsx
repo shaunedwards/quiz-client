@@ -52,7 +52,7 @@ function Login(props) {
     formData.append('password', password);
 
     // send credentials to server
-    fetch('http://mmp-sme4.dcs.aber.ac.uk:5000/login', { method: 'POST', body: formData, credentials: 'include' })
+    fetch(`${process.env.REACT_APP_API_URL}/login`, { method: 'POST', body: formData, credentials: 'include' })
       .then(response => {
         if (response.ok) {
           return props.history.push('/dashboard');
