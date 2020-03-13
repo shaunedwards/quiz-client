@@ -19,7 +19,7 @@ function SocketDemo() {
   const [isOver, setOver] = useState(false);
 
   useEffect(() => {
-    socket = io(`${process.env.REACT_APP_API_URL}`);
+    socket = io();
     const nick = prompt('enter nickname');
     socket.emit('nickname', nick);
   }, []);
@@ -32,7 +32,6 @@ function SocketDemo() {
     });
 
     socket.on('question', (question) => {
-      delete question.correct_answers;
       setQuestion(question);
       setAnswered(false);
       document.body.style = 'background: #fff';
