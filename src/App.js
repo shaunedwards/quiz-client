@@ -14,6 +14,7 @@ import Favourites from './components/Favourites';
 import QuizEditor from './components/QuizEditor';
 import QuizOverview from './components/QuizOverview';
 import DiscoverListView from './components/DiscoverListView';
+import SocketDemo from './components/SocketDemo';
 
 class PrivateRoute extends Component {
   constructor(props, context) {
@@ -60,6 +61,7 @@ function App() {
         <PrivateRoute exact path="/discover/:id" component={DiscoverListView} />
         <PrivateRoute exact path="/quiz/:id" component={QuizOverview} />
         <PrivateRoute exact path="/quiz/:id/edit" component={QuizEditor} />
+        <Route exact path="/ws-demo" component={SocketDemo} />
         <Route render={() => <Redirect to="/dashboard" />} />
       </Switch>
     </BrowserRouter>
