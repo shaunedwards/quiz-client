@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Button,
@@ -14,7 +14,7 @@ import {
 import { Alert } from '@material-ui/lab';
 
 function QuestionDialog(props) {
-  const { isOpen, setOpen, questions, setQuestions } = props;
+  const { isOpen, setOpen, questions, setQuestions, selected, setSelected } = props;
 
   const [text, setText] = useState('');
   const [timer, setTimer] = useState(0);
@@ -23,6 +23,25 @@ function QuestionDialog(props) {
   const [answers, setAnswers] = useState([]);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    if (selected !== null) {
+      setText(questions[selected].text);
+      setTimer(questions[selected].timer);
+      setPoints(questions[selected].points);
+      setChoices(questions[selected].choices);
+      setAnswers(questions[selected].correct_answers);
+    }
+  }, []);
+
+  const resetState = () => {
+    setText('');
+    setTimer(0);
+    setPoints(0);
+    setChoices([]);
+    setAnswers([]);
+    setSelected(null);
+  }
+
   const handleSubmit = () => {
     if (!validate()) return;
     const question = {
@@ -30,15 +49,23 @@ function QuestionDialog(props) {
       timer,
       points,
       type: 'multiple',
-      correct_answers: answers,
-      choices: choices.filter(choice => choice !== '')
+      choices,
+      correct_answers: answers
     }
-    setQuestions([...questions, question]);
+    if (selected !== null) {
+      const updatedQuestions = questions.map((current, index) => {
+        return index === selected ? question : current;
+      });
+      resetState();
+      setQuestions(updatedQuestions);
+    } else {
+      setQuestions([...questions, question]);
+    }
     setOpen(false);
-    console.log(question);
   }
 
   const handleClose = () => {
+    resetState();
     setOpen(false);
   }
 
@@ -47,8 +74,8 @@ function QuestionDialog(props) {
       setError('You must provide text for the question');
       return false;
     }
-    if (!choices.length) {
-      setError('You must provide at least one answer option');
+    if (choices.length < 2) {
+      setError('You must provide at least two answer options');
       return false;
     }
     return true;
@@ -57,7 +84,7 @@ function QuestionDialog(props) {
   return (
     <div>
       <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth>
-        <DialogTitle id="form-dialog-title">Add New Question</DialogTitle>
+        <DialogTitle id="form-dialog-title">{selected !== null ? 'Edit Question' : 'Add New Question'}</DialogTitle>
         <DialogContent>
           {error ? <Alert severity="error" style={{marginBottom:'1em'}}>{error}</Alert> : null}
           <TextField
@@ -68,6 +95,7 @@ function QuestionDialog(props) {
             fullWidth
             required
             onChange={e => setText(e.target.value)}
+            value={text ? text : ''}
           />
           <Grid container style={{fontFamily:'Roboto, Helvetica, Arial, sans-serif', fontSize:14, marginTop:20}}>
             {[...Array(4)].map((_, index) => (
@@ -80,7 +108,17 @@ function QuestionDialog(props) {
                       : setAnswers(answers.filter(answer => answer !== choices[index]))
                   }}
                 /> 
-                <TextField placeholder={`Answer choice ${index + 1}`} onChange={e => choices[index] = e.target.value} />
+                <TextField 
+                  placeholder={`Answer choice ${index + 1}`} 
+                  onChange={e => {
+                    if (answers.length > 0 && answers.includes(choices[index])) {
+                      setAnswers(answers.filter(answer => answer !== choices[index]));
+                    }
+                    choices[index] = e.target.value;
+                    setChoices(choices.filter(choice => choice.trim() !== ''));
+                  }} 
+                  defaultValue={choices.length > 0 ? choices[index] : ''} 
+                />
               </Grid>
             ))}
           </Grid>
