@@ -51,16 +51,16 @@ function QuizOverview(props) {
 
   const addFavourite = (id) => {
     fetch(`${process.env.REACT_APP_API_URL}/users/favourites?qid=${id}`, { method: 'POST', credentials: 'include' })
-      .then(res => res.json())
-      .then(data => console.log(data));
-    setFavourite(true);
+      .then(response => {
+        if (response.ok) setFavourite(true);
+      });
   }
 
   const removeFavourite = (id) => {
     fetch(`${process.env.REACT_APP_API_URL}/users/favourites?qid=${id}`, { method: 'DELETE', credentials: 'include' })
-      .then(res => res.json())
-      .then(data => console.log(data))
-    setFavourite(false);
+      .then(response => {
+        if (response.ok) setFavourite(false);
+      });
   }
 
   const deleteQuiz = (id) => {

@@ -23,7 +23,7 @@ function DashListItem(props) {
             <KeyboardArrowRight />
           </ListItemIcon>
         </ListItem>
-      )): <Typography component="p">Your list is currently empty</Typography>}
+      )) : <Typography component="p">Your list is currently empty</Typography>}
       {data && data.length > 0 ? <Button fullWidth size="small" href={more}>View more...</Button> : null}
     </List>
   )

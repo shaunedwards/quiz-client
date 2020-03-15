@@ -38,7 +38,6 @@ function QuizEditor() {
         setQuiz(data);
         setPublic(data.public);
         setQuestions(data.questions);
-        console.log(data);
       });
   }, []);
 
@@ -78,10 +77,8 @@ function QuizEditor() {
       body: JSON.stringify(quiz),
       credentials: 'include'
      })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        setSuccess('Your changes have been saved!');
+      .then(response => {
+        if (response.ok) setSuccess('Your changes have been saved!');
       });
   }
 
