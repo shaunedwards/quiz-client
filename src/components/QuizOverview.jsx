@@ -128,7 +128,7 @@ function QuizOverview(props) {
                 style={{background:'#1DB954', color:'white'}}>
                   Host a game
               </Button>
-              {quiz.created_by._id === props.user._id ? (
+              {quiz.created_by && quiz.created_by._id === props.user._id ? (
                 <>
                   <Button 
                     color="secondary"

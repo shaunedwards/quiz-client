@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import {  
-  Route, 
+import {
+  Route,
   Switch,
   Redirect,
   BrowserRouter
 } from 'react-router-dom';
 
 import Login from './components/Login';
+import Register from './components/Register';
 import Discover from './components/Discover';
 import Dashboard from './components/Dashboard';
 import YourGames from './components/YourGames';
@@ -18,32 +19,32 @@ import SocketDemo from './components/SocketDemo';
 
 class PrivateRoute extends Component {
   constructor(props, context) {
-      super(props, context);
+    super(props, context);
 
-      this.state = {
-        user: null,
-        isLoading: true
-      };
+    this.state = {
+      user: null,
+      isLoading: true
+    };
 
-      fetch(`${process.env.REACT_APP_API_URL}/session`, { credentials: 'include' })
-        .then(response => response.json())
-        .then(data => {
-          this.setState(() => ({ isLoading: false, user: data.user }));
-        })
-        .catch(() => {
-          this.setState(() => ({ isLoading: false, user: false }));
-        });
+    fetch(`${process.env.REACT_APP_API_URL}/session`, { credentials: 'include' })
+      .then(response => response.json())
+      .then(data => {
+        this.setState(() => ({ isLoading: false, user: data.user }));
+      })
+      .catch(() => {
+        this.setState(() => ({ isLoading: false, user: false }));
+      });
   }
 
   render() {
-      return this.state.isLoading 
-        ? null 
-        : this.state.user 
-        ? <Route 
-            path={this.props.path} 
-            exact={this.props.exact}
-            render={() => <this.props.component user={this.state.user} />} 
-          /> 
+    return this.state.isLoading
+      ? null
+      : this.state.user
+        ? <Route
+          path={this.props.path}
+          exact={this.props.exact}
+          render={() => <this.props.component user={this.state.user} />}
+        />
         : <Redirect to={{ pathname: "/login", state: { from: this.props.location } }} />
   }
 }
@@ -54,6 +55,7 @@ function App() {
       <Switch>
         <Route exact path="/" render={() => <Redirect to="/dashboard" />} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/dashboard/games" component={YourGames} />
         <PrivateRoute exact path="/dashboard/favourites" component={Favourites} />
