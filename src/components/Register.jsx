@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 const errors = {
   'PASSWORDS_NOT_MATCHING': 'Your passwords do not match. Please try again.',
   'USERNAME_INVALID_LENGTH': 'Usernames must be between 3 and 15 characters',
-  'PASSWORD_INVALID_LENGTH': 'Passwords must be between 8 and 128 characters',
+  'PASSWORD_INVALID_LENGTH': 'Passwords must be at least 8 characters',
   'USERNAME_ALREADY_TAKEN': 'This username is already in use. Please choose another.'
 }
 
@@ -61,7 +61,7 @@ function Register(props) {
       setError('USERNAME_INVALID_LENGTH');
       return false;
     }
-    if (password.length < 8 || password.length > 128) {
+    if (password.length < 8) {
       setError('PASSWORD_INVALID_LENGTH');
       return false;
     }
@@ -109,7 +109,7 @@ function Register(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form id="register-form" className={classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField

@@ -110,7 +110,7 @@ function Login(props) {
         <Typography component="p" variant="caption">
           {strategy === 'ldap' ? 'You must be connected to the university network' : null}
         </Typography>
-        {error ? <Alert severity="error" className={classes.alert}>{error}</Alert> : null}
+        {error ? <Alert id="login-error" severity="error" className={classes.alert}>{error}</Alert> : null}
         {registered && !error ? <Alert severity="success" className={classes.alert}>Registration successful! You may now log in.</Alert> : null}
         <form id="login-form" className={classes.form} noValidate>
           <FormControl fullWidth className={classes.formControl}>

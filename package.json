@@ -35,5 +35,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "jest": "^25.2.4",
+    "puppeteer": "^2.1.1"
   }
 }
