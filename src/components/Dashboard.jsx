@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   Grid,
   Typography
 } from '@material-ui/core';
@@ -41,19 +41,19 @@ function Dashboard(props) {
   return (
     <>
       <Header title="Dashboard" />
-      <Grid container alignItems="flex-start" justify="flex-end" direction="row" style={{paddingRight:30, paddingTop:25}}>
+      <Grid container alignItems="flex-start" justify="flex-end" direction="row" style={{ paddingRight: 30, paddingTop: 25 }}>
         <Typography component="p">
-          Logged in as: <span style={{fontWeight:700}}>{props.user.uid}</span>
+          Logged in as: <span style={{ fontWeight: 700 }}>{props.user.uid}</span>
         </Typography>
       </Grid>
-      <Grid container alignItems="flex-start" justify="flex-start" direction="row" style={{paddingLeft:30, paddingTop:10}}>
-        <Grid item xs={12} md={4}>
+      <Grid container alignItems="flex-start" justify="flex-start" direction="row" style={{ paddingLeft: 30, paddingTop: 10 }}>
+        <Grid item xs={12} md={4} id="games-list">
           <DashListItem title="Your Games" more="/dashboard/games" data={games} />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4} id="favourites-list">
           <DashListItem title="Your Favourites" more="/dashboard/favourites" data={favourites} />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4} id="recents-list">
           <DashListItem title="Recently Published" more="/discover" data={recent} />
         </Grid>
       </Grid>

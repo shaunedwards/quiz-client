@@ -65,7 +65,7 @@ function QuizOverview(props) {
   return (
     <>
       <Header title={quiz ? quiz.title : null} />
-      <Grid container>
+      <Grid id="quiz-overview" container>
         {quiz ? (
           <>
             <Grid item xs={12} md={6} style={{ padding: 30 }}>
@@ -74,6 +74,7 @@ function QuizOverview(props) {
               </Typography>
               <Tooltip title={isFavourite ? 'Remove from favourites' : 'Add to favourites'}>
                 <IconButton
+                  id="set-favourite-btn"
                   aria-label={isFavourite ? 'Remove from favourites' : 'Add to favourites'}
                   onClick={() => isFavourite ? removeFavourite(quiz._id) : addFavourite(quiz._id)}
                   style={{ float: 'right', padding: 0 }}
@@ -123,6 +124,7 @@ function QuizOverview(props) {
               {quiz.created_by && quiz.created_by._id === props.user._id ? (
                 <>
                   <Button
+                    id="delete-quiz-btn"
                     color="secondary"
                     variant="contained"
                     startIcon={<Delete />}
@@ -131,6 +133,7 @@ function QuizOverview(props) {
                     Delete
                   </Button>
                   <Button
+                    id="edit-quiz-btn"
                     color="primary"
                     variant="contained"
                     startIcon={<Edit />}
@@ -148,6 +151,7 @@ function QuizOverview(props) {
               </Typography>
               <Tooltip title={showAnswers ? 'Hide answers' : 'Show answers'}>
                 <IconButton
+                  id="toggle-answers-btn"
                   aria-label={showAnswers ? 'Hide answers' : 'Show answers'}
                   onClick={() => setShowAnswers(!showAnswers)}
                   style={{ float: 'right', padding: 0 }}

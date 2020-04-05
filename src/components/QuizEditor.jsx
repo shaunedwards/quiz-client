@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Grid, 
-  Button, 
+import {
+  Grid,
+  Button,
   Switch,
   Snackbar,
   FormGroup,
@@ -69,14 +69,14 @@ function QuizEditor() {
     quiz.public = isPublic;
     quiz.draft = false;
 
-    fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`, { 
+    fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(quiz),
       credentials: 'include'
-     })
+    })
       .then(response => {
         if (response.ok) setSuccess('Your changes have been saved!');
       });
@@ -96,7 +96,7 @@ function QuizEditor() {
         onEditorClose={onClose}
         onEditorSave={onSave}
       />
-      <Grid container justify="center" style={{ padding: 30 }}>
+      <Grid id="editor" container justify="center" style={{ padding: 30 }}>
         <FormGroup>
           <TextField
             required
@@ -127,6 +127,7 @@ function QuizEditor() {
             labelPlacement="start"
           />
           <Button
+            id="add-question-btn"
             variant="contained"
             color="primary"
             onClick={() => setDialogOpen(true)}
@@ -136,60 +137,60 @@ function QuizEditor() {
         </FormGroup>
       </Grid>
       <Grid container justify="center">
-        <form style={{ width:'90vw', marginBottom:30 }}>
+        <form style={{ width: '90vw', marginBottom: 30 }}>
           {questions
             ? questions.map((question, index) => {
-                return (
-                  <ExpansionPanel key={index}>
-                    <ExpansionPanelSummary expandIcon={<ExpandMore />}>
-                      <FormControlLabel
-                        aria-label="Edit"
-                        onClick={event => {
-                          event.stopPropagation();
-                          setSelected(index);
-                          setDialogOpen(true);
-                        }}
-                        onFocus={event => event.stopPropagation()}
-                        control={<Edit />}
-                      />
-                      <FormControlLabel
-                        aria-label="Remove"
-                        onClick={event => {
-                          event.stopPropagation();
-                          removeQuestion(index);
-                        }}
-                        onFocus={event => event.stopPropagation()}
-                        control={<Delete />}
-                      />
-                      <Typography>
-                        {question.text}
-                      </Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                      <Grid container>
-                        <Grid item xs={12} md={5}>
-                          <Typography component="p" style={{fontWeight:700}}>Choices</Typography>
-                          <Typography component="p">{question.choices.join(', ')}</Typography>
-                        </Grid>
-                        <Grid item xs={12} md={5}>
-                          <Typography component="p" style={{fontWeight:700}}>Answer(s)</Typography>
-                          <Typography component="p">
-                            {question.correct_answers.length > 0 ? question.correct_answers.join(', ') : 'All answers will be marked correct'}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={6} md={1}>
-                          <Typography component="p" style={{fontWeight:700}}>Points</Typography>
-                          <Typography component="p">{question.points ? question.points : 'none'}</Typography>
-                        </Grid>
-                        <Grid item xs={6} md={1}>
-                          <Typography component="p" style={{fontWeight:700}}>Timer</Typography>
-                          <Typography component="p">{question.timer ? `${question.timer}s` : 'none'}</Typography>
-                        </Grid>
+              return (
+                <ExpansionPanel key={index}>
+                  <ExpansionPanelSummary expandIcon={<ExpandMore />}>
+                    <FormControlLabel
+                      aria-label="Edit"
+                      onClick={event => {
+                        event.stopPropagation();
+                        setSelected(index);
+                        setDialogOpen(true);
+                      }}
+                      onFocus={event => event.stopPropagation()}
+                      control={<Edit />}
+                    />
+                    <FormControlLabel
+                      aria-label="Remove"
+                      onClick={event => {
+                        event.stopPropagation();
+                        removeQuestion(index);
+                      }}
+                      onFocus={event => event.stopPropagation()}
+                      control={<Delete />}
+                    />
+                    <Typography>
+                      {question.text}
+                    </Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Grid container>
+                      <Grid item xs={12} md={5}>
+                        <Typography component="p" style={{ fontWeight: 700 }}>Choices</Typography>
+                        <Typography component="p">{question.choices.join(', ')}</Typography>
                       </Grid>
-                    </ExpansionPanelDetails>
-                  </ExpansionPanel>
-                );
-              })
+                      <Grid item xs={12} md={5}>
+                        <Typography component="p" style={{ fontWeight: 700 }}>Answer(s)</Typography>
+                        <Typography component="p">
+                          {question.correct_answers.length > 0 ? question.correct_answers.join(', ') : 'All answers will be marked correct'}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} md={1}>
+                        <Typography component="p" style={{ fontWeight: 700 }}>Points</Typography>
+                        <Typography component="p">{question.points ? question.points : 'none'}</Typography>
+                      </Grid>
+                      <Grid item xs={6} md={1}>
+                        <Typography component="p" style={{ fontWeight: 700 }}>Timer</Typography>
+                        <Typography component="p">{question.timer ? `${question.timer}s` : 'none'}</Typography>
+                      </Grid>
+                    </Grid>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
+              );
+            })
             : null}
         </form>
       </Grid>

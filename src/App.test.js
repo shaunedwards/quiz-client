@@ -91,20 +91,161 @@ describe('Registration tests', () => {
 });
 
 describe('CRUD functionality tests', () => {
-  test.todo('users can create a draft quiz with valid title and subject selected');
-  test.todo('users are prevented from creating a draft quiz without providing a title');
-  test.todo('users are prevented from creating a draft quiz without selecting a subject');
-  test.todo('users can add question when required fields are completed');
-  test.todo('error is displayed when question text is not provided');
-  test.todo('error is displayed when less than two answer options are provided');
-  test.todo('error is displayed when attempting to publish a quiz with no questions');
-  test.todo('users should have the option to edit quizzes where they are the creator');
-  test.todo('users should have the option to delete quizzes where they are the creator');
-  test.todo('users should NOT have the option to edit where they are NOT the creator');
-  test.todo('users should NOT have the option to delete where they are NOT the creator');
-  test.todo('users are able to add favourite from quiz overview page');
-  test.todo('users are able to remove favourite from quiz overview page');
-  test.todo('users are able to toggle answer choices when viewing quiz details');
+  test('users can create a draft quiz with valid title and subject selected', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#menu-create-btn');
+    await page.click('#menu-create-btn');
+    await page.waitForSelector('input#title');
+    await page.click('input#title');
+    await page.type('input#title', 'Test Quiz');
+    await page.click('div#subject');
+    await page.click('ul[role=listbox] > li:nth-child(5)');
+    await page.evaluate(() => document.querySelector('#submit-quiz-btn').click());
+    await page.waitForSelector('div#editor');
+  }, 30000);
+
+  test('users are prevented from creating a draft quiz without providing a title', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#menu-create-btn');
+    await page.click('#menu-create-btn');
+    await page.waitForSelector('div#subject');
+    await page.click('div#subject');
+    await page.click('ul[role=listbox] > li:nth-child(5)');
+    const isBtnDisabled = await page.$('#submit-quiz-btn[disabled]');
+    expect(isBtnDisabled).toBeTruthy();
+  }, 30000);
+
+  test('users are prevented from creating a draft quiz without selecting a subject', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#menu-create-btn');
+    await page.click('#menu-create-btn');
+    await page.waitForSelector('input#title');
+    await page.click('input#title');
+    await page.type('input#title', 'Test Quiz');
+    const isBtnDisabled = await page.$('#submit-quiz-btn[disabled]');
+    expect(isBtnDisabled).toBeTruthy();
+  }, 30000);
+
+  test('users can add question when required fields are completed', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#games-list');
+    await page.click('#games-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#edit-quiz-btn');
+    await page.click('#edit-quiz-btn');
+    await page.waitForSelector('#add-question-btn');
+    await page.click('#add-question-btn');
+    await page.click('input#text');
+    await page.type('input#text', 'Test Question');
+    await page.click('#choices > div:nth-child(1) > div > div > input');
+    await page.type('#choices > div:nth-child(1) > div > div > input', 'choice1');
+    await page.click('#choices > div:nth-child(2) > div > div > input');
+    await page.type('#choices > div:nth-child(2) > div > div > input', 'choice2');
+    await page.click('#submit-question-btn');
+  }, 30000);
+
+  test('error is displayed when question text is not provided', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#games-list');
+    await page.click('#games-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#edit-quiz-btn');
+    await page.click('#edit-quiz-btn');
+    await page.waitForSelector('#add-question-btn');
+    await page.click('#add-question-btn');
+    await page.click('#submit-question-btn');
+    await page.waitForSelector('#question-error');
+    const error = await page.$eval('#question-error', e => e.innerText);
+    expect(error).toEqual('You must provide text for the question');
+  }, 30000);
+
+  test('error is displayed when less than two answer options are provided', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#games-list');
+    await page.click('#games-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#edit-quiz-btn');
+    await page.click('#edit-quiz-btn');
+    await page.waitForSelector('#add-question-btn');
+    await page.click('#add-question-btn');
+    await page.click('input#text');
+    await page.type('input#text', 'Test Question');
+    await page.click('#choices > div:nth-child(1) > div > div > input');
+    await page.type('#choices > div:nth-child(1) > div > div > input', 'choice1');
+    await page.click('#submit-question-btn');
+    await page.waitForSelector('#question-error');
+    const error = await page.$eval('#question-error', e => e.innerText);
+    expect(error).toEqual('You must provide at least two answer options');
+  }, 30000);
+
+  test('error is displayed when attempting to publish a quiz with no questions', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#games-list');
+    await page.click('#games-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#edit-quiz-btn');
+    await page.click('#edit-quiz-btn');
+    await page.waitForSelector('button[title="Save changes"]');
+    await page.click('button[title="Save changes"]');
+    const error = await page.$eval('div[role=alert]', e => e.textContent);
+    expect(error).toEqual('You cannot publish a quiz without first adding a question!');
+  }, 30000);
+
+  test('users should have the option to edit quizzes where they are the creator', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#games-list');
+    await page.click('#games-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#quiz-overview');
+    const editBtn = await page.$('#edit-quiz-btn');
+    expect(editBtn).toBeTruthy();
+  }, 30000);
+
+  test('users should have the option to delete quizzes where they are the creator', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#games-list');
+    await page.click('#games-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#quiz-overview');
+    const deleteBtn = await page.$('#delete-quiz-btn');
+    expect(deleteBtn).toBeTruthy();
+  }, 30000);
+
+  test('users should NOT have the option to edit where they are NOT the creator', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#recents-list');
+    await page.click('#recents-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#quiz-overview');
+    const editBtn = await page.$('#edit-quiz-btn');
+    expect(editBtn).toBeFalsy();
+  }, 30000);
+
+  test('users should NOT have the option to delete where they are NOT the creator', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#recents-list');
+    await page.click('#recents-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#quiz-overview');
+    const deleteBtn = await page.$('#delete-quiz-btn');
+    expect(deleteBtn).toBeFalsy();
+  }, 30000);
+
+  test('users are able to add favourite from quiz overview page', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#recents-list');
+    await page.click('#recents-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#set-favourite-btn');
+    await page.click('#set-favourite-btn');
+    await page.goto(`${baseUrl}/dashboard`);
+    await page.waitForSelector('#favourites-list');
+    const numFavourites = (await page.$$('#favourites-list > ul > a')).length;
+    expect(numFavourites).toEqual(1);
+  }, 30000);
+
+  test('users are able to remove favourite from quiz overview page', async () => {
+    await login('test-user', 'testing123');
+    await page.waitForSelector('#recents-list');
+    await page.click('#recents-list > ul > a:nth-child(2)');
+    await page.waitForSelector('#set-favourite-btn');
+    await page.click('#set-favourite-btn');
+    await page.goto(`${baseUrl}/dashboard`);
+    await page.waitForSelector('#favourites-list');
+    const numFavourites = (await page.$$('#favourites-list > ul > a')).length;
+    expect(numFavourites).toEqual(0);
+  }, 30000);
 });
 
 afterAll(() => browser.close());

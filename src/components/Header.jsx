@@ -6,9 +6,9 @@ import {
   Tooltip,
   IconButton
 } from '@material-ui/core';
-import { 
-  Menu, 
-  AddOutlined, 
+import {
+  Menu,
+  AddOutlined,
   ExitToApp,
   Close,
   Done
@@ -70,19 +70,19 @@ function Header(props) {
               </Tooltip>
             </>
           ) : (
-            <>
-              <Tooltip title="Create new quiz" aria-label="add">
-                <IconButton color="inherit" onClick={() => setDialogOpen(true)}>
-                  <AddOutlined />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Logout" aria-label="logout">
-                <IconButton edge="end" color="inherit" onClick={handleLogout}>
-                  <ExitToApp />
-                </IconButton>
-              </Tooltip>
-            </>
-          )}
+              <>
+                <Tooltip title="Create new quiz" aria-label="add">
+                  <IconButton id="menu-create-btn" color="inherit" onClick={() => setDialogOpen(true)}>
+                    <AddOutlined />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Logout" aria-label="logout">
+                  <IconButton id="menu-logout-btn" edge="end" color="inherit" onClick={handleLogout}>
+                    <ExitToApp />
+                  </IconButton>
+                </Tooltip>
+              </>
+            )}
         </Toolbar>
       </AppBar>
       <NewQuizDialog isOpen={isDialogOpen} setOpen={setDialogOpen} />

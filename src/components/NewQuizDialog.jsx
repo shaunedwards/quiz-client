@@ -12,7 +12,7 @@ import {
   MenuItem
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 function NewQuizDialog(props) {
   const { isOpen, setOpen } = props;
@@ -20,7 +20,6 @@ function NewQuizDialog(props) {
   const [title, setTitle] = useState('');
   const [subject, setSubject] = useState('');
   const [options, setOptions] = useState([]);
-  const [created, setCreated] = useState(null);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/subjects`)
@@ -35,9 +34,9 @@ function NewQuizDialog(props) {
 
     fetch(`${process.env.REACT_APP_API_URL}/games`, { method: 'POST', body, credentials: 'include' })
       .then(res => res.json())
-      .then(data => {
+      .then(quiz => {
         setOpen(false);
-        setCreated(data);
+        props.history.push(`/quiz/${quiz._id}/edit`);
       });
   }
 
@@ -54,7 +53,7 @@ function NewQuizDialog(props) {
       <Dialog open={isOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Create New Quiz</DialogTitle>
         <DialogContent>
-          <Alert severity="info" style={{marginBottom:'1em'}}>
+          <Alert severity="info" style={{ marginBottom: '1em' }}>
             Before adding questions, please provide a quiz title and select a related subject to help others find your quiz.
           </Alert>
           <TextField
@@ -67,9 +66,10 @@ function NewQuizDialog(props) {
             required
             onChange={e => setTitle(e.target.value)}
           />
-          <FormControl style={{width: '100%'}} required>
+          <FormControl style={{ width: '100%' }} required>
             <InputLabel>Choose a subject...</InputLabel>
             <Select
+              id="subject"
               value={subject}
               onChange={handleChange}
               required
@@ -82,14 +82,13 @@ function NewQuizDialog(props) {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} color="primary" disabled={!subject || !title.trim()}>
+          <Button id="submit-quiz-btn" onClick={handleSubmit} color="primary" disabled={!subject || !title.trim()}>
             Submit
           </Button>
         </DialogActions>
       </Dialog>
-      { created ? <Redirect to={{ pathname: `/quiz/${created._id}/edit`, state: created }}/> : null}
     </div>
   );
 }
 
-export default NewQuizDialog;
+export default withRouter(NewQuizDialog);

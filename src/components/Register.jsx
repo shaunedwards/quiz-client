@@ -57,7 +57,7 @@ function Register(props) {
       setError('PASSWORDS_NOT_MATCHING');
       return false;
     }
-    if (username.length < 3 || username.length > 15) {
+    if (username.trim().length < 3 || username.trim().length > 15) {
       setError('USERNAME_INVALID_LENGTH');
       return false;
     }
