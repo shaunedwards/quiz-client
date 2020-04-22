@@ -17,7 +17,7 @@ function QuestionDialog(props) {
   const { isOpen, setOpen, questions, setQuestions, selected, setSelected } = props;
 
   const [text, setText] = useState('');
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(30);
   const [points, setPoints] = useState(0);
   const [choices, setChoices] = useState([]);
   const [answers, setAnswers] = useState([]);
@@ -134,8 +134,10 @@ function QuestionDialog(props) {
                 variant="outlined"
                 onChange={e => setTimer(e.target.value)}
               >
-                <MenuItem value={0}>None</MenuItem>
+                <MenuItem value={10}>10s</MenuItem>
+                <MenuItem value={20}>20s</MenuItem>
                 <MenuItem value={30}>30s</MenuItem>
+                <MenuItem value={45}>45s</MenuItem>
                 <MenuItem value={60}>60s</MenuItem>
                 <MenuItem value={90}>90s</MenuItem>
               </TextField>

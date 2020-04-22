@@ -5,6 +5,7 @@ import {
   Redirect,
   BrowserRouter
 } from 'react-router-dom';
+import useSocket from 'use-socket.io-client';
 
 import Login from './components/Login';
 import Register from './components/Register';
@@ -15,7 +16,8 @@ import Favourites from './components/Favourites';
 import QuizEditor from './components/QuizEditor';
 import QuizOverview from './components/QuizOverview';
 import DiscoverListView from './components/DiscoverListView';
-import SocketDemo from './components/SocketDemo';
+import HostView from './components/sockets/HostView';
+import PlayerView from './components/sockets/PlayerView';
 
 class PrivateRoute extends Component {
   constructor(props, context) {
@@ -50,6 +52,7 @@ class PrivateRoute extends Component {
 }
 
 function App() {
+  const [socket] = useSocket('http://localhost:5000');
   return (
     <BrowserRouter>
       <Switch>
@@ -63,7 +66,8 @@ function App() {
         <PrivateRoute exact path="/discover/:id" component={DiscoverListView} />
         <PrivateRoute exact path="/quiz/:id" component={QuizOverview} />
         <PrivateRoute exact path="/quiz/:id/edit" component={QuizEditor} />
-        <Route exact path="/ws-demo" component={SocketDemo} />
+        <PrivateRoute exact path="/host" component={() => <HostView socket={socket} />} />
+        <Route exact path="/play" component={() => <PlayerView socket={socket} />} />
         <Route render={() => <Redirect to="/dashboard" />} />
       </Switch>
     </BrowserRouter>

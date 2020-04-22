@@ -15,7 +15,7 @@ import {
   ListAlt,
   Favorite,
   ThumbUp,
-  Settings,
+  History,
   ExitToApp
 } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
@@ -83,14 +83,14 @@ function Drawer(props) {
             </ListItem>
           </Link>
           <ListItem button>
+            <ListItemIcon><History /></ListItemIcon>
+            <ListItemText primary="History" />
+          </ListItem>
+          <ListItem button>
             <ListItemIcon><ThumbUp /></ListItemIcon>
             <ListItemText primary="Feedback" />
           </ListItem>
           <Divider />
-          <ListItem button>
-            <ListItemIcon><Settings /></ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
           <ListItem button onClick={handleLogout}>
             <ListItemIcon><ExitToApp /></ListItemIcon>
             <ListItemText primary="Log out" />

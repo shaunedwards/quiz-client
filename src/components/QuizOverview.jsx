@@ -26,6 +26,7 @@ import {
   RadioButtonUnchecked,
   CheckCircleOutline
 } from '@material-ui/icons';
+import { Alert } from '@material-ui/lab';
 import { useRouteMatch, withRouter } from 'react-router-dom';
 
 import Header from './Header';
@@ -85,6 +86,11 @@ function QuizOverview(props) {
               <Typography component="p">
                 {quiz.desc ? quiz.desc : 'This quiz has no description.'}
               </Typography>
+              {quiz.draft ? (
+                <Alert severity="info" style={{ marginTop: '1em' }}>
+                  <span style={{ fontWeight: 700 }}>This quiz is incomplete.</span> You will not be able to host a live game until published.
+                </Alert>
+              ) : null}
               <Divider style={{ margin: '1em 0' }} />
 
               <Grid container style={{ fontFamily: 'Roboto, Helvetica, Arial, sans-serif', fontSize: 14 }}>
@@ -114,13 +120,20 @@ function QuizOverview(props) {
                 </Grid>
               </Grid>
               <Divider style={{ margin: '1em 0' }} />
-
-              <Button
-                variant="contained"
-                startIcon={<PlayArrow />}
-                style={{ background: '#1DB954', color: 'white' }}>
-                Host a game
-              </Button>
+              {!quiz.draft ? (
+                <Button
+                  variant="contained"
+                  startIcon={<PlayArrow />}
+                  style={{ background: '#1DB954', color: 'white' }}
+                  disabled={quiz.draft}
+                  onClick={() => props.history.push({
+                    pathname: '/host',
+                    state: quiz
+                  })}
+                >
+                  Host a game
+                </Button>
+              ) : null}
               {quiz.created_by && quiz.created_by._id === props.user._id ? (
                 <>
                   <Button

@@ -11,14 +11,17 @@
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-icons": "^3.9.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "socket.io-client": "^2.3.0"
+    "react-swipeable-views": "^0.13.9",
+    "socket.io-client": "^2.3.0",
+    "use-socket.io-client": "^1.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --colors",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -38,7 +41,6 @@
   },
   "devDependencies": {
     "faker": "^4.1.0",
-    "jest": "^25.2.4",
     "puppeteer": "^2.1.1"
   }
 }
