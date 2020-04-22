@@ -41,7 +41,7 @@ function Waiting(props) {
       <Grid container alignItems="center" justify="center" direction="row" style={{ textAlign: 'center', padding: '5px' }}>
         <Grid item xs={12}>
           <Typography component="p" style={{ fontSize: '1.5em' }}>
-            Join at <span style={{ fontWeight: 700 }}>quiz.sme.dev</span> using the game PIN:
+            Join at <span style={{ fontWeight: 700 }}>play.sme.dev</span> using the game PIN:
           </Typography>
           <Typography component="p" style={{ fontWeight: 700, fontSize: '2.5em', letterSpacing: '1px' }}>
             {roomID}

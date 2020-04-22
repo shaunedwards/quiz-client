@@ -52,7 +52,7 @@ class PrivateRoute extends Component {
 }
 
 function App() {
-  const [socket] = useSocket('http://localhost:5000');
+  const [socket] = useSocket('https://quiz.sme.dev');
   return (
     <BrowserRouter>
       <Switch>
