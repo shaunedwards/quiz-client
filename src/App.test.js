@@ -128,7 +128,7 @@ describe('CRUD functionality tests', () => {
 
   test('users can add question when required fields are completed', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#games-list');
+    await page.waitForSelector('#games-list > ul > a:nth-child(2)');
     await page.click('#games-list > ul > a:nth-child(2)');
     await page.waitForSelector('#edit-quiz-btn');
     await page.click('#edit-quiz-btn');
@@ -145,7 +145,7 @@ describe('CRUD functionality tests', () => {
 
   test('error is displayed when question text is not provided', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#games-list');
+    await page.waitForSelector('#games-list > ul > a:nth-child(2)');
     await page.click('#games-list > ul > a:nth-child(2)');
     await page.waitForSelector('#edit-quiz-btn');
     await page.click('#edit-quiz-btn');
@@ -159,7 +159,7 @@ describe('CRUD functionality tests', () => {
 
   test('error is displayed when less than two answer options are provided', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#games-list');
+    await page.waitForSelector('#games-list > ul > a:nth-child(2)');
     await page.click('#games-list > ul > a:nth-child(2)');
     await page.waitForSelector('#edit-quiz-btn');
     await page.click('#edit-quiz-btn');
@@ -177,7 +177,7 @@ describe('CRUD functionality tests', () => {
 
   test('error is displayed when attempting to publish a quiz with no questions', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#games-list');
+    await page.waitForSelector('#games-list > ul > a:nth-child(2)');
     await page.click('#games-list > ul > a:nth-child(2)');
     await page.waitForSelector('#edit-quiz-btn');
     await page.click('#edit-quiz-btn');
@@ -189,7 +189,7 @@ describe('CRUD functionality tests', () => {
 
   test('users should have the option to edit quizzes where they are the creator', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#games-list');
+    await page.waitForSelector('#games-list > ul > a:nth-child(2)');
     await page.click('#games-list > ul > a:nth-child(2)');
     await page.waitForSelector('#quiz-overview');
     const editBtn = await page.$('#edit-quiz-btn');
@@ -198,7 +198,7 @@ describe('CRUD functionality tests', () => {
 
   test('users should have the option to delete quizzes where they are the creator', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#games-list');
+    await page.waitForSelector('#games-list > ul > a:nth-child(2)');
     await page.click('#games-list > ul > a:nth-child(2)');
     await page.waitForSelector('#quiz-overview');
     const deleteBtn = await page.$('#delete-quiz-btn');
@@ -207,7 +207,7 @@ describe('CRUD functionality tests', () => {
 
   test('users should NOT have the option to edit where they are NOT the creator', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#recents-list');
+    await page.waitForSelector('#recents-list > ul > a:nth-child(2)');
     await page.click('#recents-list > ul > a:nth-child(2)');
     await page.waitForSelector('#quiz-overview');
     const editBtn = await page.$('#edit-quiz-btn');
@@ -216,7 +216,7 @@ describe('CRUD functionality tests', () => {
 
   test('users should NOT have the option to delete where they are NOT the creator', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#recents-list');
+    await page.waitForSelector('#recents-list > ul > a:nth-child(2)');
     await page.click('#recents-list > ul > a:nth-child(2)');
     await page.waitForSelector('#quiz-overview');
     const deleteBtn = await page.$('#delete-quiz-btn');
@@ -225,7 +225,7 @@ describe('CRUD functionality tests', () => {
 
   test('users are able to add favourite from quiz overview page', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#recents-list');
+    await page.waitForSelector('#recents-list > ul > a:nth-child(2)');
     await page.click('#recents-list > ul > a:nth-child(2)');
     await page.waitForSelector('#set-favourite-btn');
     await page.click('#set-favourite-btn');
@@ -237,7 +237,7 @@ describe('CRUD functionality tests', () => {
 
   test('users are able to remove favourite from quiz overview page', async () => {
     await login('test-user', 'testing123');
-    await page.waitForSelector('#recents-list');
+    await page.waitForSelector('#recents-list > ul > a:nth-child(2)');
     await page.click('#recents-list > ul > a:nth-child(2)');
     await page.waitForSelector('#set-favourite-btn');
     await page.click('#set-favourite-btn');
