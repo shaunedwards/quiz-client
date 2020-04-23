@@ -7,6 +7,7 @@ import {
   CssBaseline,
   TextField
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { School } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -35,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function JoinGame({ socket }) {
+function JoinGame({ socket, message }) {
   const [gameId, setGameId] = useState('');
   const [error, setError] = useState('');
 
@@ -70,7 +71,8 @@ function JoinGame({ socket }) {
         </Avatar>
         <Typography component="h1" variant="h5">
           Join a game
-          </Typography>
+        </Typography>
+        {message ? <Alert severity="info" style={{ marginTop: '1em' }}>{message}</Alert> : null}
         <form className={classes.form} onSubmit={handleSubmit}>
           <TextField
             label="Game PIN"

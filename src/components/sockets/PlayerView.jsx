@@ -15,6 +15,7 @@ function PlayerView({ socket }) {
   const [question, setQuestion] = useState('');
   const [timer, setTimer] = useState(0);
   const [numQuestions, setNumQuestions] = useState(0);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     socket.on('gamestate', ({ roomID, state, players, numQuestions }) => {
@@ -35,9 +36,8 @@ function PlayerView({ socket }) {
     });
 
     socket.on('forceDisconnect', (message) => {
-      alert(message);
       setState('');
-      // window.location.reload();
+      setMessage(message);
     });
   }, [gameId, state, players, question, timer]);
 
@@ -65,7 +65,7 @@ function PlayerView({ socket }) {
       case 'GAMEOVER':
         return <GameOver socket={socket} players={players} numQuestions={numQuestions} />
       default:
-        return <JoinGame socket={socket} />
+        return <JoinGame socket={socket} message={message} />
     }
   }
 
