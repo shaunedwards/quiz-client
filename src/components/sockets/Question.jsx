@@ -83,7 +83,7 @@ function Question(props) {
               position: 'relative'
             }}>
             {icons[index]}
-            {index === selected
+            {index === selected && correct !== null
               ? correct
                 ? <CheckCircle className={classes.icon} />
                 : <Cancel className={classes.icon} />
