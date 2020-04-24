@@ -63,6 +63,18 @@ function QuizOverview(props) {
       });
   }
 
+  const calcAvgAccuracy = () => {
+    const { total_hosted, total_correct, total_questions, total_players } = quiz.stats;
+    return total_hosted
+      ? `${Math.floor(total_correct / (total_players * total_questions) * total_hosted * 100)}% average accuracy`
+      : 'No data recorded'
+  }
+
+  const getNumGamesHosted = () => {
+    const { total_hosted } = quiz.stats;
+    return `${total_hosted} game${total_hosted !== 1 ? 's' : ''}`
+  }
+
   return (
     <>
       <Header title={quiz ? quiz.title : null} />
@@ -104,7 +116,7 @@ function QuizOverview(props) {
                   <PlayArrow
                     style={{ verticalAlign: 'middle', marginRight: '8px' }}
                     titleAccess="Number of plays" />
-                    100 games hosted
+                  {`${getNumGamesHosted()} hosted`}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <School
@@ -115,8 +127,8 @@ function QuizOverview(props) {
                 <Grid item xs={12} md={6}>
                   <Timeline
                     style={{ verticalAlign: 'middle', marginRight: '8px' }}
-                    titleAccess="Percentage of correct answers over 100 games" />
-                    90% average accuracy
+                    titleAccess={`Percentage of correct answers over ${getNumGamesHosted()}`} />
+                  {calcAvgAccuracy()}
                 </Grid>
               </Grid>
               <Divider style={{ margin: '1em 0' }} />
