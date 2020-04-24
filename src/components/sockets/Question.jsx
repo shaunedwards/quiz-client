@@ -8,6 +8,7 @@ import icons from './lib/icons';
 import colours from './lib/colours';
 import { makeStyles } from '@material-ui/core/styles';
 import { CheckCircle, Cancel } from '@material-ui/icons';
+import useWindowHeight from './lib/hooks/useWindowHeight';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -48,6 +49,7 @@ function Question(props) {
   const [correct, setCorrect] = useState(null);
 
   const classes = useStyles();
+  const height = useWindowHeight();
 
   const { question, timer, players, socket } = props;
 
@@ -79,7 +81,7 @@ function Question(props) {
             className={`${classes.button} ${answered ? classes.disabled : ''} ${index === selected ? classes.selected : ''}`}
             style={{
               background: colours[index],
-              height: `${question.choices.length > 2 ? window.innerHeight / 2 - 49 : window.innerHeight - 98}px`,
+              height: `${question.choices.length > 2 ? height / 2 - 49 : height - 98}px`,
               position: 'relative'
             }}>
             {icons[index]}

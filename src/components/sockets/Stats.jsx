@@ -6,12 +6,6 @@ import {
   Typography
 } from '@material-ui/core';
 
-const styles = {
-  height: `${window.innerHeight - 126}px`,
-  textAlign: 'center',
-  overflowY: 'auto'
-}
-
 function StatCard({ title, value }) {
   return (
     <Card style={{ margin: '0.5em' }}>
@@ -47,7 +41,7 @@ function Stats({ socket, players, numQuestions }) {
   }
 
   return (
-    <div style={styles}>
+    <div style={{ textAlign: 'center', overflowY: 'auto' }}>
       <Typography component="p" variant="h5" style={{ marginTop: '1em', fontWeight: 700 }}>
         GAME OVER!
       </Typography>

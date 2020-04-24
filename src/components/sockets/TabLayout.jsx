@@ -7,6 +7,7 @@ import {
   Typography
 } from '@material-ui/core';
 import SwipeableViews from 'react-swipeable-views';
+import useWindowHeight from './lib/hooks/useWindowHeight';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Stats from './Stats';
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 export default function FullWidthTabs(props) {
   const classes = useStyles();
   const theme = useTheme();
+  const height = useWindowHeight();
   const [value, setValue] = React.useState(1);
 
   const handleChange = (event, newValue) => {
@@ -58,7 +60,7 @@ export default function FullWidthTabs(props) {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{ height: `${height - 78}px` }}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -77,6 +79,7 @@ export default function FullWidthTabs(props) {
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
+        style={{ height: '100%' }}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <Leaderboard {...props} />

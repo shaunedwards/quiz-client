@@ -10,12 +10,6 @@ import {
 } from '@material-ui/core';
 import { FiAward } from 'react-icons/fi';
 
-const styles = {
-  height: `${window.innerHeight - 126}px`,
-  textAlign: 'center',
-  overflowY: 'auto'
-}
-
 const awards = [
   '#ffd700',
   '#c0c0c0',
@@ -25,7 +19,7 @@ const awards = [
 function Leaderboard({ socket, players }) {
   const getLeaderboard = () => Object.values(players).sort((a, b) => b.score - a.score);
   return (
-    <Grid container style={styles}>
+    <Grid container style={{ textAlign: 'center', overflowY: 'auto' }}>
       <TableContainer>
         <Table>
           <TableHead>
