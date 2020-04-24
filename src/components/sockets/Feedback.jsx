@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   container: {
-    height: 'calc(100vh - 126px)',
+    height: `${window.innerHeight - 126}px`,
     textAlign: 'center',
     overflowY: 'auto'
   },

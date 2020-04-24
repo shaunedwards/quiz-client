@@ -79,7 +79,7 @@ function Question(props) {
             className={`${classes.button} ${answered ? classes.disabled : ''} ${index === selected ? classes.selected : ''}`}
             style={{
               background: colours[index],
-              height: question.choices.length > 2 ? 'calc(50vh - 49px)' : 'calc(100vh - 98px)',
+              height: `${question.choices.length > 2 ? window.innerHeight / 2 - 49 : window.innerHeight - 98}px`,
               position: 'relative'
             }}>
             {icons[index]}

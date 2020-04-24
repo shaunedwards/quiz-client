@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 
 const styles = {
-  height: 'calc(100vh - 126px)',
+  height: `${window.innerHeight - 126}px`,
   textAlign: 'center',
   overflowY: 'auto'
 }
