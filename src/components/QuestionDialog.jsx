@@ -18,7 +18,7 @@ function QuestionDialog(props) {
 
   const [text, setText] = useState('');
   const [timer, setTimer] = useState(30);
-  const [points, setPoints] = useState(0);
+  const [points, setPoints] = useState(1000);
   const [choices, setChoices] = useState([]);
   const [answers, setAnswers] = useState([]);
   const [error, setError] = useState('');

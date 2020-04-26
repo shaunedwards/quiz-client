@@ -86,10 +86,6 @@ function Drawer(props) {
             <ListItemIcon><History /></ListItemIcon>
             <ListItemText primary="History" />
           </ListItem>
-          <ListItem button>
-            <ListItemIcon><ThumbUp /></ListItemIcon>
-            <ListItemText primary="Feedback" />
-          </ListItem>
           <Divider />
           <ListItem button onClick={handleLogout}>
             <ListItemIcon><ExitToApp /></ListItemIcon>

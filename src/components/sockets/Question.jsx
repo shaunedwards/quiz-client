@@ -70,7 +70,7 @@ function Question(props) {
 
   return (
     <>
-      <LinearProgress variant="determinate" value={(timer / 30) * 100} style={{ height: '20px' }} />
+      <LinearProgress variant="determinate" value={(timer / question.timer) * 100} style={{ height: '20px' }} />
       <Grid container>
         {question.choices.map((choice, index) => (
           <Grid

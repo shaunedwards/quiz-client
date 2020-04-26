@@ -5,8 +5,8 @@ import {
 } from '@material-ui/core';
 
 import JoinGame from './JoinGame';
-import GameOver from './GameOver';
 import Question from './Question';
+import PlayerGameOver from './PlayerGameOver';
 
 function PlayerView({ socket }) {
   const [state, setState] = useState('');
@@ -63,7 +63,7 @@ function PlayerView({ socket }) {
       case 'QUESTION':
         return <Question roomID={gameId} question={question} timer={timer} players={players} socket={socket} />
       case 'GAMEOVER':
-        return <GameOver socket={socket} players={players} numQuestions={numQuestions} />
+        return <PlayerGameOver socket={socket} players={players} numQuestions={numQuestions} />
       default:
         return <JoinGame socket={socket} message={message} />
     }

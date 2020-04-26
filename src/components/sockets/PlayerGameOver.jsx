@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function GameOver(props) {
+function PlayerGameOver(props) {
   const classes = useStyles();
   const { socket, players } = props;
   return (
@@ -36,4 +36,4 @@ function GameOver(props) {
   )
 }
 
-export default GameOver;
+export default PlayerGameOver;

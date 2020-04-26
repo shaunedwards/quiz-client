@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Typography } from '@material-ui/core';
 
 import Waiting from './Waiting';
 import GameLobby from './GameLobby';
 import CreateGame from './CreateGame';
+import HostGameOver from './HostGameOver';
 
 function HostView({ socket }) {
   const [state, setState] = useState('');
@@ -21,6 +21,7 @@ function HostView({ socket }) {
       setPlayers(players);
       setProgress(progress);
       setNumAnswered(numAnswered);
+      if (state === 'GAMEOVER') socket.off('gamestate');
     });
 
     socket.on('question', (question) => {
@@ -39,7 +40,7 @@ function HostView({ socket }) {
       case 'QUESTION':
         return <GameLobby roomID={gameId} players={players} question={question} timer={timer} progress={progress} numAnswered={numAnswered} />
       case 'GAMEOVER':
-        return <Typography component="p" variant="h1" style={{ textAlign: 'center' }}>GAME OVER!</Typography>
+        return <HostGameOver players={players} />
       default:
         return <CreateGame socket={socket} />
     }

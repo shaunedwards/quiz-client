@@ -11,7 +11,7 @@ import useWindowHeight from './lib/hooks/useWindowHeight';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import Stats from './Stats';
-import Feedback from './Feedback';
+import Review from './Review';
 import Leaderboard from './Leaderboard';
 
 function TabPanel(props) {
@@ -60,7 +60,7 @@ export default function FullWidthTabs(props) {
   };
 
   return (
-    <div className={classes.root} style={{ height: `${height - 78}px` }}>
+    <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -72,14 +72,14 @@ export default function FullWidthTabs(props) {
         >
           <Tab label="Scores" {...a11yProps(0)} />
           <Tab label="Stats" {...a11yProps(1)} />
-          <Tab label="Feedback" {...a11yProps(2)} />
+          <Tab label="Review" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
-        style={{ height: '100%' }}
+        style={{ height: `${height - 126}px` }}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <Leaderboard {...props} />
@@ -88,7 +88,7 @@ export default function FullWidthTabs(props) {
           <Stats {...props} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <Feedback {...props} />
+          <Review {...props} />
         </TabPanel>
       </SwipeableViews>
     </div>
