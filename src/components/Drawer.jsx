@@ -14,7 +14,6 @@ import {
   Search,
   ListAlt,
   Favorite,
-  ThumbUp,
   History,
   ExitToApp
 } from '@material-ui/icons';

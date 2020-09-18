@@ -63,7 +63,7 @@ function Login(props) {
 
   const classes = useStyles();
 
-  const { registered } = props.location.state || {};
+  const { isRegistered } = props.location.state || {};
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -111,7 +111,7 @@ function Login(props) {
           {strategy === 'ldap' ? 'You must be connected to the university network' : null}
         </Typography>
         {error ? <Alert id="login-error" severity="error" className={classes.alert}>{error}</Alert> : null}
-        {registered && !error ? <Alert severity="success" className={classes.alert}>Registration successful! You may now log in.</Alert> : null}
+        {isRegistered && !error ? <Alert severity="success" className={classes.alert}>Registration successful! You may now log in.</Alert> : null}
         <form id="login-form" className={classes.form} noValidate>
           <FormControl fullWidth className={classes.formControl}>
             <InputLabel>Authentication Method</InputLabel>
@@ -157,7 +157,7 @@ function Login(props) {
           </Button>
           <Grid>
             <Grid item align="center">
-              <Link href="https://myaccount.aber.ac.uk/open/reset/" target="_blank" variant="body2">
+              <Link href="https://myaccount.aber.ac.uk/open/reset/" target="_blank" rel="noreferrer" variant="body2">
                 Forgot password?
               </Link>
               <span className={classes.separator}> | </span>

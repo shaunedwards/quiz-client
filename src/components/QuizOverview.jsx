@@ -66,7 +66,7 @@ function QuizOverview(props) {
   const calcAvgAccuracy = () => {
     const { total_hosted, total_correct, total_questions, total_players } = quiz.stats;
     return total_hosted
-      ? `${Math.floor(total_correct / (total_players * total_questions) * total_hosted * 100)}% average accuracy`
+      ? `${Math.floor(total_correct / (total_players * total_questions) * total_hosted * 100) || 0}% average accuracy`
       : 'No data recorded'
   }
 
@@ -208,7 +208,7 @@ function QuizOverview(props) {
                       {question.choices ? question.choices.map((choice, index) => (
                         <Grid item xs={12} md={6} key={index}>
                           {showAnswers
-                            ? question.correct_answers.length === 0 || question.correct_answers.includes(choice)
+                            ? question.answers.length === 0 || question.answers.includes(choice)
                               ? <CheckCircleOutline style={{ verticalAlign: 'middle', marginRight: '8px', color: 'green' }} fontSize="small" />
                               : <HighlightOff style={{ verticalAlign: 'middle', marginRight: '8px', color: 'red' }} fontSize="small" />
                             : <RadioButtonUnchecked style={{ verticalAlign: 'middle', marginRight: '8px' }} fontSize="small" />}

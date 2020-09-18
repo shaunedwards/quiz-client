@@ -6,6 +6,23 @@ import {
 import { InfoOutlined } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
+import * as hero from 'hero-patterns';
+
+const BG_COLOUR = '#9c92ac';
+const BG_OPACITY = '0.15';
+
+const backgrounds = [
+  hero.fallingTriangles(BG_COLOUR, BG_OPACITY),
+  hero.glamorous(BG_COLOUR, BG_OPACITY),
+  hero.floatingCogs(BG_COLOUR, BG_OPACITY),
+  hero.squaresInSquares(BG_COLOUR, BG_OPACITY),
+  hero.circlesAndSquares(BG_COLOUR, BG_OPACITY),
+];
+
+const randomBackground = () => {
+  return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+}
+
 const useStyles = makeStyles(theme => ({
   bottomInfo: {
     fontFamily: theme.typography.fontFamily,
@@ -13,11 +30,14 @@ const useStyles = makeStyles(theme => ({
   },
   players: {
     height: 'calc(100vh - 156px)',
-    background: '#13ce7a',
+    borderTop: '5px solid #fc0',
+    backgroundColor: '#13ce7a',
+    backgroundImage: randomBackground(),
     textAlign: 'center',
     padding: '2em',
     color: '#fff',
-    overflowY: 'auto'
+    overflowY: 'auto',
+    textShadow: '2px 2px 4px #000'
   },
   startBtn: {
     cursor: 'pointer',
@@ -43,7 +63,7 @@ function Waiting(props) {
           <Typography component="p" style={{ fontSize: '1.5em' }}>
             Join at <span style={{ fontWeight: 700 }}>play.sme.dev</span> using the game PIN:
           </Typography>
-          <Typography component="p" style={{ fontWeight: 700, fontSize: '2.5em', letterSpacing: '1px' }}>
+          <Typography component="p" style={{ fontWeight: 700, fontSize: '2.5em', letterSpacing: '2px' }}>
             {roomID}
           </Typography>
         </Grid>

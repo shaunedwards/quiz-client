@@ -30,7 +30,7 @@ function Review({ socket, players }) {
               <Grid container style={{ fontFamily: 'Roboto, Helvetica, Arial, sans-serif', fontSize: 14 }}>
                 {question.choices ? question.choices.map((choice, index) => (
                   <Grid item xs={12} md={3} key={index} style={{ fontWeight: choice === answer ? 700 : '' }}>
-                    {!question.correct_answers.length || question.correct_answers.includes(choice)
+                    {!question.answers.length || question.answers.includes(choice)
                       ? <CheckCircleOutline style={{ verticalAlign: 'middle', marginRight: '8px', color: 'green' }} fontSize="small" />
                       : <HighlightOff style={{ verticalAlign: 'middle', marginRight: '8px', color: 'red' }} fontSize="small" />}
                     {choice}

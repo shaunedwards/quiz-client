@@ -30,6 +30,7 @@ function QuizEditor() {
   const [success, setSuccess] = useState(false);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [expanded, setExpanded] = useState(null);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/games/${match.params.id}`)
@@ -40,6 +41,10 @@ function QuizEditor() {
         setQuestions(data.questions);
       });
   }, []);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : null);
+  }
 
   const closeSnackbar = () => {
     setError(false);
@@ -141,7 +146,7 @@ function QuizEditor() {
           {questions
             ? questions.map((question, index) => {
               return (
-                <ExpansionPanel key={index}>
+                <ExpansionPanel key={index} expanded={expanded === index} onChange={handleChange(index)}>
                   <ExpansionPanelSummary expandIcon={<ExpandMore />}>
                     <FormControlLabel
                       aria-label="Edit"
@@ -175,7 +180,7 @@ function QuizEditor() {
                       <Grid item xs={12} md={5}>
                         <Typography component="p" style={{ fontWeight: 700 }}>Answer(s)</Typography>
                         <Typography component="p">
-                          {question.correct_answers.length > 0 ? question.correct_answers.join(', ') : 'All answers will be marked correct'}
+                          {question.answers.length > 0 ? question.answers.join(', ') : 'All answers will be marked correct'}
                         </Typography>
                       </Grid>
                       <Grid item xs={6} md={1}>

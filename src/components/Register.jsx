@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Avatar,
   Button,
@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import PersonIcon from '@material-ui/icons/PersonRounded';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,13 +37,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const errors = {
-  'PASSWORDS_NOT_MATCHING': 'Your passwords do not match. Please try again.',
-  'USERNAME_INVALID_LENGTH': 'Usernames must be between 3 and 15 characters',
-  'PASSWORD_INVALID_LENGTH': 'Passwords must be at least 8 characters',
-  'USERNAME_ALREADY_TAKEN': 'This username is already in use. Please choose another.'
-}
-
 function Register(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -52,51 +45,42 @@ function Register(props) {
 
   const classes = useStyles();
 
-  const validate = () => {
+  const isFormValid = () => {
     if (password !== passConf) {
-      setError('PASSWORDS_NOT_MATCHING');
-      return false;
-    }
-    if (username.trim().length < 3 || username.trim().length > 15) {
-      setError('USERNAME_INVALID_LENGTH');
-      return false;
-    }
-    if (password.length < 8) {
-      setError('PASSWORD_INVALID_LENGTH');
+      setError('Your passwords do not match. Please try again.');
       return false;
     }
     return true;
   }
 
   const isUsernameInvalid = () => {
-    return error && error === 'USERNAME_INVALID_LENGTH' || error === 'USERNAME_ALREADY_TAKEN';
+    return error.toLowerCase().includes('username');
   }
 
   const isPasswordInvalid = () => {
-    return error && error === 'PASSWORD_INVALID_LENGTH' || error === 'PASSWORDS_NOT_MATCHING';
+    return error.toLowerCase().includes('password');
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!validate()) return;
+    if (!isFormValid()) return;
     setError('');
 
-    fetch(`${process.env.REACT_APP_API_URL}/register`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ username, password })
-    })
-      .then(response => {
-        if (response.ok) {
-          return props.history.push({
-            pathname: '/login',
-            state: { registered: true }
-          });
-        }
-        setError('USERNAME_ALREADY_TAKEN');
+    });
+    if (response.ok) {
+      return props.history.push({
+        pathname: '/login',
+        state: { isRegistered: true }
       });
+    }
+    const { error } = await response.json();
+    setError(error);
   }
 
   return (
@@ -104,7 +88,7 @@ function Register(props) {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <PersonIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
           Sign up
@@ -123,7 +107,7 @@ function Register(props) {
                 autoFocus
                 onChange={(e) => setUsername(e.target.value)}
                 error={isUsernameInvalid()}
-                helperText={isUsernameInvalid() ? errors[error] : 'Usernames must be between 3 and 15 characters'}
+                helperText={isUsernameInvalid() ? error : 'Usernames must be between 3 and 15 characters'}
               />
             </Grid>
             <Grid item xs={12}>
@@ -138,7 +122,7 @@ function Register(props) {
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
                 error={isPasswordInvalid()}
-                helperText={isPasswordInvalid() ? errors[error] : 'Passwords must be at least 8 characters'}
+                helperText={isPasswordInvalid() ? error : 'Passwords must be at least 8 characters'}
               />
             </Grid>
             <Grid item xs={12}>

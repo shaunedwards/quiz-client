@@ -29,7 +29,7 @@ function QuestionDialog(props) {
       setTimer(questions[selected].timer);
       setPoints(questions[selected].points);
       setChoices(questions[selected].choices);
-      setAnswers(questions[selected].correct_answers);
+      setAnswers(questions[selected].answers);
     }
   }, []);
 
@@ -50,7 +50,7 @@ function QuestionDialog(props) {
       points,
       type: 'multiple',
       choices,
-      correct_answers: answers
+      answers
     }
     if (selected !== null) {
       const updatedQuestions = questions.map((current, index) => {
