@@ -107,6 +107,7 @@ function QuizEditor() {
             required
             label="Quiz title"
             value={quiz.title ? quiz.title : ''}
+            inputProps={{ maxLength: 50 }}
             onChange={e => {
               quiz.title = e.target.value;
               setQuiz({ ...quiz });
@@ -115,6 +116,7 @@ function QuizEditor() {
           <TextField
             label="Quiz description"
             value={quiz.desc ? quiz.desc : ''}
+            inputProps={{ maxLength: 255 }}
             onChange={e => {
               quiz.desc = e.target.value;
               setQuiz({ ...quiz });

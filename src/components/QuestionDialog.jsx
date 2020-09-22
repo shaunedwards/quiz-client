@@ -75,7 +75,7 @@ function QuestionDialog(props) {
       return false;
     }
     if (choices.length < 2) {
-      setError('You must provide at least two answer options');
+      setError('You must provide at least two answer choices');
       return false;
     }
     return true;
@@ -94,6 +94,7 @@ function QuestionDialog(props) {
             type="text"
             fullWidth
             required
+            inputProps={{ maxLength: 80 }}
             onChange={e => setText(e.target.value)}
             value={text ? text : ''}
           />
@@ -110,6 +111,7 @@ function QuestionDialog(props) {
                 />
                 <TextField
                   placeholder={`Answer choice ${index + 1}`}
+                  inputProps={{ maxLength: 50 }}
                   onChange={e => {
                     if (answers.length > 0 && answers.includes(choices[index])) {
                       setAnswers(answers.filter(answer => answer !== choices[index]));

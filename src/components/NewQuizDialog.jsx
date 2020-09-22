@@ -64,6 +64,7 @@ function NewQuizDialog(props) {
             type="text"
             fullWidth
             required
+            inputProps={{ maxLength: 50 }}
             onChange={e => setTitle(e.target.value)}
           />
           <FormControl style={{ width: '100%' }} required>
