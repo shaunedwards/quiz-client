@@ -108,25 +108,19 @@ function QuizEditor() {
             label="Quiz title"
             value={quiz.title ? quiz.title : ''}
             inputProps={{ maxLength: 50 }}
-            onChange={e => {
-              quiz.title = e.target.value;
-              setQuiz({ ...quiz });
-            }}
+            onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
           />
           <TextField
             label="Quiz description"
             value={quiz.desc ? quiz.desc : ''}
             inputProps={{ maxLength: 255 }}
-            onChange={e => {
-              quiz.desc = e.target.value;
-              setQuiz({ ...quiz });
-            }}
+            onChange={(e) => setQuiz({ ...quiz, desc: e.target.value })}
           />
           <FormControlLabel
             control={
               <Switch
                 checked={isPublic}
-                onChange={e => setPublic(e.target.checked)}
+                onChange={(e) => setPublic(e.target.checked)}
                 value="public"
               />
             }

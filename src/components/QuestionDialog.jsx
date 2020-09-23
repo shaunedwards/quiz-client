@@ -94,7 +94,7 @@ function QuestionDialog(props) {
             type="text"
             fullWidth
             required
-            inputProps={{ maxLength: 80 }}
+            inputProps={{ maxLength: 90 }}
             onChange={e => setText(e.target.value)}
             value={text ? text : ''}
           />

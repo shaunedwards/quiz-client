@@ -63,7 +63,7 @@ function Header(props) {
                   <Done />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Discard changes" aria-label="cancel">
+              <Tooltip title="Close editor" aria-label="cancel">
                 <IconButton edge="end" color="inherit" onClick={onEditorClose}>
                   <Close />
                 </IconButton>
